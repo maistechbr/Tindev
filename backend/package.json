@@ -3,6 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "contributors": [
+    {
+      "name": "Daniel Felizardo",
+      "email": "daniel.david772@gmail.com",
+      "url": "htpps://github.com/DanielDavidDev"
+    }
+  ],
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
