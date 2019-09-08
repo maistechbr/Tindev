@@ -9,6 +9,7 @@ class User extends Model {
         email: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
+        provider: Sequelize.BOOLEAN,
       },
       {
         sequelize,
@@ -22,6 +23,10 @@ class User extends Model {
     });
 
     return this;
+  }
+
+  checkPassword(password) {
+    return bcrycpt.compare(password, this.password_hash);
   }
 }
 
