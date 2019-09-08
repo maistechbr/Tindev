@@ -1,9 +1,5 @@
 node_modules
 
-src/database/migrations/*
-!src/database/migrations/.gitkeep
-
-
 .env
 
 npm-debug.log*
