@@ -117,4 +117,52 @@ describe('User update', () => {
 
     expect(response.status).toBe(400);
   });
+
+  it('should not be able validate without password', async () => {
+    const user = await factory.create('User');
+
+    const {
+      body: { token },
+    } = await request(app)
+      .post('/sessions')
+      .send({
+        email: user.email,
+        password: user.password,
+      });
+
+    const response = await request(app)
+      .put('/users')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        email: user.email,
+        oldPassword: user.password,
+        confirmPassword: '1234567',
+      });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should not be able validate without confirmPassword', async () => {
+    const user = await factory.create('User');
+
+    const {
+      body: { token },
+    } = await request(app)
+      .post('/sessions')
+      .send({
+        email: user.email,
+        password: user.password,
+      });
+
+    const response = await request(app)
+      .put('/users')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        email: user.email,
+        oldPassword: user.password,
+        password: '1234567',
+      });
+
+    expect(response.status).toBe(400);
+  });
 });
