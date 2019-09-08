@@ -165,4 +165,29 @@ describe('User update', () => {
 
     expect(response.status).toBe(400);
   });
+
+  it('should not be able validate without fields', async () => {
+    const user = await factory.create('User');
+
+    const {
+      body: { token },
+    } = await request(app)
+      .post('/sessions')
+      .send({
+        email: user.email,
+        password: user.password,
+      });
+
+    const response = await request(app)
+      .put('/users')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        email: user.email,
+        oldPassword: '',
+        password: '',
+        confirmPassword: '',
+      });
+
+    expect(response.status).toBe(400);
+  });
 });
