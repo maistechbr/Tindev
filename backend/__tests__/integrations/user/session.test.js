@@ -5,7 +5,7 @@ import app from '../../../src/app';
 import truncate from '../../util/truncate';
 import factory from '../../factories';
 
-describe('User store', () => {
+describe('User session', () => {
   beforeEach(async () => {
     await truncate();
   });
