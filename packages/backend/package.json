@@ -8,7 +8,9 @@
     "start": "node src/server.js",
     "pretest": "NODE_ENV=test sequelize db:migrate",
     "test": "NODE_ENV=test jest",
-    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
+    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all",
+    "lint": "eslint --fix src --ext .js",
+    "build": "sucrase ./src -d ./dist --transforms imports"
   },
   "contributors": [
     {
@@ -27,7 +29,8 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.8.7",
     "youch": "^2.0.10",
-    "yup": "^0.27.0"
+    "yup": "^0.27.0",
+    "frontend": "0.1.0"
   },
   "devDependencies": {
     "@sucrase/jest-plugin": "^2.0.0",
