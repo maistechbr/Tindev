@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import Brute from 'express-brute';
+import BruteRedis from 'express-brute-redis';
 
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
@@ -11,8 +13,20 @@ import ValidatorSessionStore from './app/validators/SessionStore';
 
 const routes = Router();
 
+const bruteStore = new BruteRedis({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+});
+
+const bruteForce = new Brute(bruteStore);
+
 routes.post('/users', ValidatorUserStore, UserController.store);
-routes.post('/sessions', ValidatorSessionStore, SessionController.store);
+routes.post(
+  '/sessions',
+  bruteForce.prevent,
+  ValidatorSessionStore,
+  SessionController.store
+);
 
 routes.use(authMiddleware);
 
