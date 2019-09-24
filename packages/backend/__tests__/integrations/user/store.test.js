@@ -1,5 +1,6 @@
 import request from 'supertest';
 import bcrypt from 'bcryptjs';
+import redis from 'redis';
 
 import app from '../../../src/app';
 
@@ -9,6 +10,9 @@ import factory from '../../factories';
 describe('User store', () => {
   beforeEach(async () => {
     await truncate();
+    redis
+      .createClient(process.env.REDIS_PORT, process.env.REDIS_HOST)
+      .subscribe('clean_cache');
   });
 
   it('should be able to register', async () => {

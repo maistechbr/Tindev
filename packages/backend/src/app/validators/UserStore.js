@@ -1,13 +1,17 @@
-import * as Yup from 'yup';
+import { object, string } from 'yup';
 
 export default async (req, res, next) => {
   try {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      email: Yup.string()
+    const schema = object().shape({
+      name: string()
+        .strict(true)
+        .required(),
+      email: string()
+        .strict(true)
         .email()
         .required(),
-      password: Yup.string()
+      password: string()
+        .strict(true)
         .min(6)
         .required(),
     });
