@@ -1,31 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Form, Input } from '@rocketseat/unform';
+import * as Yup from 'yup';
 
-// import { Container } from './styles';
+const schema = Yup.object().shape({
+  email: Yup.string().email('E-mail is required'),
+  password: Yup.string().email('Password is required'),
+});
 
 export default function Main() {
-  const [techs, setTechs] = useState([]);
-  const [newTech, setNewTech] = useState('');
-
-  function handleAddTech() {
-    setTechs([...techs, newTech]);
-    setNewTech('');
-  }
+  function handleSubmit({ email, password }) {}
 
   return (
-    <form onSubmit={handleAddTech} data-testid="tech-form">
-      <ul data-testid="tech-list">
-        {techs.map(tech => (
-          <li key={tech}>{tech}</li>
-        ))}
-      </ul>
+    <Form onSubmit={handleSubmit} data-testid="tech-form" schema={schema}>
+      <label htmlFor="email">E-mail</label>
+      <Input id="email" name="email" type="email" placeholder="Your e-mail" />
 
-      <label htmlFor="tech">Tech</label>
-      <input
-        id="tech"
-        value={newTech}
-        onChange={e => setNewTech(e.target.value)}
+      <label htmlFor="password">Password</label>
+      <Input
+        id="password"
+        name="password"
+        type="password"
+        placeholder="Your secret password"
       />
       <button type="submit">Adicionar</button>
-    </form>
+      <Link to="/register">Create free account</Link>
+    </Form>
   );
 }
