@@ -28,6 +28,7 @@ export function* signIn({ payload }) {
     history.push('/dashboard');
   } catch (err) {
     toast.error('Failure in authentication, verify your datas');
+    console.tron.log(err);
     yield put(signFailure());
   }
 }
@@ -49,6 +50,7 @@ export function* signUp({ payload }) {
   } catch (err) {
     toast.error('Failure in register, verify your datas');
     yield put(signFailure());
+    console.tron.log(err);
   }
 }
 
