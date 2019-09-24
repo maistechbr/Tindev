@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "dependencies": {
     "@rocketseat/unform": "^1.5.1",
-    "axios": "^0.19.0",
     "backend": "1.0.0",
     "history": "^4.10.1",
     "immer": "^4.0.0",
@@ -21,8 +20,7 @@
     "redux": "^4.0.4",
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.1.1",
-    "styled-components": "^4.4.0",
-    "yup": "^0.27.0"
+    "styled-components": "^4.4.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -63,7 +61,6 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.1.4",
-    "@types/jest": "^24.0.18",
     "babel-plugin-root-import": "^6.4.1",
     "customize-cra": "^0.7.0",
     "eslint-config-airbnb": "^18.0.1",
