@@ -1,5 +1,4 @@
 import request from 'supertest';
-import redis from 'redis';
 
 import app from '../../../src/app';
 
@@ -9,9 +8,6 @@ import factory from '../../factories';
 describe('User session', () => {
   beforeEach(async () => {
     await truncate();
-    redis
-      .createClient(process.env.REDIS_PORT, process.env.REDIS_HOST)
-      .subscribe('clean_cache');
   });
 
   it('should be able JWT token for sessions of user', async () => {
@@ -28,19 +24,20 @@ describe('User session', () => {
   });
 
   it('should not be able JWT token for sessions of user without email', async () => {
-    const user = await factory.create('User');
-
     const response = await request(app)
       .post('/sessions')
       .send({
-        password: user.password,
+        email: 'daniel@test.com',
+        password: '123123',
       });
 
     expect(response.status).toBe(400);
   });
 
   it('should not be able JWT token for sessions of user without password', async () => {
-    const user = await factory.create('User');
+    const user = await factory.attrs('User', {
+      email: 'daniel@test.com',
+    });
 
     const response = await request(app)
       .post('/sessions')
@@ -51,7 +48,7 @@ describe('User session', () => {
     expect(response.status).toBe(400);
   });
 
-  it('should not be able JWT token for sessions of user without data', async () => {
+  it('should not be able JWT token for sessions of user without fields', async () => {
     const response = await request(app)
       .post('/sessions')
       .send();
@@ -59,14 +56,10 @@ describe('User session', () => {
     expect(response.status).toBe(400);
   });
 
-  it('should be able not permited created session without user', async () => {
-    const user = await factory.attrs('User', {
+  it('should be able not permited created session with email invalid', async () => {
+    const user = await factory.create('User', {
       email: 'daniel@test.com',
     });
-
-    await request(app)
-      .post('/users')
-      .send(user);
 
     const response = await request(app)
       .post('/sessions')
@@ -79,13 +72,9 @@ describe('User session', () => {
   });
 
   it('should be able not permited created session with password invalid', async () => {
-    const user = await factory.attrs('User', {
+    const user = await factory.create('User', {
       password: '123456',
     });
-
-    await request(app)
-      .post('/users')
-      .send(user);
 
     const response = await request(app)
       .post('/sessions')

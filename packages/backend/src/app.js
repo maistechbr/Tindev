@@ -38,7 +38,7 @@ class App {
     );
     this.server.use(express.json());
 
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV !== 'development') {
       this.server.use(
         new RateLimit({
           store: new RateLimitRedis({

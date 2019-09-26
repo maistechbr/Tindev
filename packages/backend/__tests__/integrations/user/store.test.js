@@ -1,8 +1,8 @@
 import request from 'supertest';
 import bcrypt from 'bcryptjs';
-import redis from 'redis';
 
 import app from '../../../src/app';
+// import api from '../../../src/services/api';
 
 import truncate from '../../util/truncate';
 import factory from '../../factories';
@@ -10,9 +10,6 @@ import factory from '../../factories';
 describe('User store', () => {
   beforeEach(async () => {
     await truncate();
-    redis
-      .createClient(process.env.REDIS_PORT, process.env.REDIS_HOST)
-      .subscribe('clean_cache');
   });
 
   it('should be able to register', async () => {
@@ -25,7 +22,7 @@ describe('User store', () => {
     expect(response.body).toHaveProperty('id');
   });
 
-  it('should be able to register with duplicated e-mail', async () => {
+  it('should not be able to register with duplicated e-mail', async () => {
     const user = await factory.attrs('User');
 
     await request(app)
@@ -59,39 +56,10 @@ describe('User store', () => {
     expect(compareHash).toBe(false);
   });
 
-  it('should not be able schema validate without name', async () => {
-    const user = await factory.create('User');
-
+  it('should not be able schema validate without fields', async () => {
     const response = await request(app)
       .post('/users')
-      .send({
-        email: user.email,
-        password: user.password,
-      });
-
-    expect(response.status).toBe(400);
-  });
-  it('should not be able schema validate without email', async () => {
-    const user = await factory.create('User');
-
-    const response = await request(app)
-      .post('/users')
-      .send({
-        name: user.name,
-        password: user.password,
-      });
-
-    expect(response.status).toBe(400);
-  });
-  it('should not be able schema validate without password', async () => {
-    const user = await factory.create('User');
-
-    const response = await request(app)
-      .post('/users')
-      .send({
-        name: user.name,
-        email: user.email,
-      });
+      .send();
 
     expect(response.status).toBe(400);
   });
