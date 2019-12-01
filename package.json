@@ -1,5 +1,5 @@
 {
-  "name": "Tindev",
+  "name": "tindev",
   "version": "1.0.0",
   "private": true,
   "repository": "git@github.com:maistechbr/Tindev.git",
@@ -11,8 +11,14 @@
     "packages:test": "lerna run test",
     "packages:build": "lerna run build"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run test"
+    }
+  },
   "workspaces": [
-    "packages/*"
+    "frontend/**",
+    "backend/**"
   ],
   "devDependencies": {
     "@types/jest": "^24.0.18",
@@ -21,6 +27,7 @@
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.1.0",
     "lerna": "^3.16.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2"
